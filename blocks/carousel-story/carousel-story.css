@@ -215,6 +215,15 @@ main > .section > .carousel-story-wrapper {
     /* source portrait renders ~576px wide (40% of the 1440px full-bleed hero) */
     flex: 0 0 40%;
     max-width: 40%;
+    align-self: stretch;
+  }
+
+  /* image + its picture wrapper must fill the full slide height so the photo
+     covers the left column edge-to-edge (source image ~731px, not 664px) */
+  .carousel-story .carousel-story-slide-image,
+  .carousel-story .carousel-story-slide-image picture,
+  .carousel-story .carousel-story-slide-image img {
+    height: 100%;
   }
 
   .carousel-story .carousel-story-slide-content {
