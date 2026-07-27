@@ -126,10 +126,23 @@
 
 /* ---- Desktop: two-column tabs layout ---- */
 @media (width >= 900px) {
+  /* Allow the panel image to bleed into the section's right gutter (toward
+     the viewport edge) as it does on the source, without triggering a
+     horizontal scrollbar. */
+  main .section:has(.accordion-focus) {
+    overflow-x: clip;
+  }
+
+  /* The block is the positioning context for the overlapping image + card.
+     The left title list stays in normal flow; the image and card are
+     absolutely positioned against the block using the measured source
+     offsets (block content width 1280px, height 591px). */
   .accordion-focus {
+    position: relative;
     display: flex;
     align-items: flex-start;
     gap: 84px;
+    min-height: 591px;
   }
 
   .accordion-focus .accordion-focus-list {
@@ -137,27 +150,18 @@
     width: 404px;
   }
 
-  /* Right column reserves the source panel height (~591px) so the taller,
-     overlapping image + card composition has room. */
   .accordion-focus .accordion-focus-panels {
-    position: relative;
     flex: 1 1 auto;
     min-width: 0;
-    min-height: 591px;
   }
 
-  .accordion-focus .accordion-focus-panel:not([hidden]) {
-    position: relative;
-    height: 591px;
-  }
-
-  /* Large image, top-right, rises above the card (source: 778×519 flush to
-     the section's right edge). It overflows the 672px right column to the
-     right, so allow the section to clip rather than scroll horizontally. */
+  /* Large image, top-right, rises above the card (source: 778×519, left
+     edge 662px from the block, bleeding past the block's right edge into
+     the gutter — clipped by the section above). */
   .accordion-focus .accordion-focus-panel-media {
     position: absolute;
     top: 0;
-    right: 0;
+    left: 662px;
     width: 778px;
     max-width: none;
     line-height: 0;
@@ -174,12 +178,13 @@
   }
 
   /* White text card overlaps the image's lower-left (source: 672px wide,
-     offset 249px from the top, extended left padding so text clears the
-     image edge; sits in front on a white background). */
+     left edge 408px — flush against the title list — offset 249px down,
+     extended left padding so text clears the image; sits in front on a
+     white background). */
   .accordion-focus .accordion-focus-panel-card {
     position: absolute;
     top: 249px;
-    left: 0;
+    left: 408px;
     width: 672px;
     box-sizing: border-box;
     padding: 40px 64px 40px 156px;
