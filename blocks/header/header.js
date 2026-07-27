@@ -114,11 +114,10 @@ export default async function decorate(block) {
 
   actions.append(searchBtn, menuBtn);
 
-  // assemble: brand | actions in the bar, overlay below
+  // assemble: brand in the centered bar, overlay below
   const bar = document.createElement('div');
   bar.className = 'nav-bar';
   if (navBrand) bar.append(navBrand);
-  bar.append(actions);
 
   nav.append(bar, overlay);
 
@@ -135,5 +134,7 @@ export default async function decorate(block) {
   const navWrapper = document.createElement('div');
   navWrapper.className = 'nav-wrapper';
   navWrapper.append(nav);
+  // actions bar is pinned to the top-right corner of the full-width wrapper
+  navWrapper.append(actions);
   block.append(navWrapper);
 }

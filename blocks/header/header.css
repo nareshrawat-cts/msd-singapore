@@ -17,13 +17,13 @@ header nav {
   max-width: 1264px;
   padding: 0 24px;
   font-family: var(--body-font-family);
+  position: relative;
 }
 
-/* top bar: logo + actions */
+/* top bar: logo left; actions pinned flush to the top-right viewport corner */
 header nav .nav-bar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   height: 79px;
 }
 
@@ -48,16 +48,20 @@ header nav .nav-brand img {
   display: block;
 }
 
-/* header actions: teal bar with white Search + Menu buttons (matches source) */
-header nav .nav-actions {
+/* header actions: teal bar flush to the top-right viewport corner (matches source) */
+header .nav-wrapper .nav-actions {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 79px;
   display: flex;
   align-items: stretch;
-  align-self: stretch;
   background: var(--brand-accent);
+  z-index: 21;
 }
 
-header nav .nav-search-toggle,
-header nav .nav-menu-toggle {
+header .nav-wrapper .nav-search-toggle,
+header .nav-wrapper .nav-menu-toggle {
   display: inline-flex;
   align-items: center;
   gap: 12px;
@@ -74,24 +78,24 @@ header nav .nav-menu-toggle {
   cursor: pointer;
 }
 
-header nav .nav-search-toggle:hover,
-header nav .nav-menu-toggle:hover {
+header .nav-wrapper .nav-search-toggle:hover,
+header .nav-wrapper .nav-menu-toggle:hover {
   color: #fff;
   opacity: 0.85;
 }
 
-header nav .nav-action-icon {
+header .nav-wrapper .nav-action-icon {
   width: 16px;
   height: 16px;
   display: block;
 }
 
 /* the Menu button gets a leading divider to echo the source separator */
-header nav .nav-menu-toggle {
+header .nav-wrapper .nav-menu-toggle {
   position: relative;
 }
 
-header nav .nav-menu-toggle::before {
+header .nav-wrapper .nav-menu-toggle::before {
   content: '';
   position: absolute;
   left: 0;
@@ -238,14 +242,14 @@ header nav .nav-promo a:hover {
     width: 120px;
   }
 
-  header nav .nav-search-toggle,
-  header nav .nav-menu-toggle {
+  header .nav-wrapper .nav-search-toggle,
+  header .nav-wrapper .nav-menu-toggle {
     padding: 0 16px;
     font-size: 18px;
   }
 
   /* search shows icon only on mobile */
-  header nav .nav-search-toggle span {
+  header .nav-wrapper .nav-search-toggle span {
     display: none;
   }
 
