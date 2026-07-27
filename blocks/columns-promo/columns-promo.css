@@ -144,10 +144,15 @@ main .columns-promo-text a:hover {
     height: 100%;
   }
 
+  /* The teal panel is inset 64px vertically so it sits shorter than the
+   * full-height image. Combined with the 64px block overlap, the images poke
+   * out top/bottom while the teal panels tuck in — the image and teal columns
+   * tessellate like interlocking puzzle pieces (matches the source stagger). */
   .columns-promo-text {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin: 64px 0;
     padding: 72px 80px;
   }
 
