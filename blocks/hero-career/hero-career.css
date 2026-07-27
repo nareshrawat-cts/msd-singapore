@@ -26,6 +26,7 @@
   height: 100%;
   min-height: 280px;
   object-fit: cover;
+
   /* keep the subjects' faces in frame when the photo is cropped to the
      banner height (crop from the bottom, not the center) */
   object-position: center top;
