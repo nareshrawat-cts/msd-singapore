@@ -95,12 +95,15 @@
     min-height: 864px;
   }
 
-  /* image fills the banner photo area as a background layer -- source photo ~864px tall */
+  /* Photo layer occupies only the top ~648px of the banner (source
+     image-container is clipped to 648px). The card's lower portion hangs
+     below the photo into white space, and more white follows below the card
+     — so the photo does NOT extend past the card's bottom. */
   .hero-career > div:first-child {
     position: absolute;
     inset: 0 0 auto;
     z-index: 0;
-    height: 864px;
+    height: 648px;
   }
 
   .hero-career > div:first-child > div,
