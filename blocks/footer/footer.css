@@ -1,20 +1,153 @@
-footer {
-  background-color: var(--light-color);
-  font-size: var(--body-font-size-xs);
-}
+/* stylelint-disable no-descending-specificity */
 
-footer .footer > div {
-  margin: auto;
-  max-width: 1200px;
-  padding: 40px 24px 24px;
+/* MSD Singapore footer: teal social band + white links/legal area */
+
+footer {
+  background-color: #fff;
+  font-family: var(--body-font-family);
 }
 
 footer .footer p {
   margin: 0;
 }
 
+footer .footer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+footer .footer a:any-link {
+  color: #000;
+  text-decoration: none;
+}
+
+/* --- social band (teal) --- */
+footer .footer-social {
+  background-color: #00857c;
+  color: #fff;
+  padding: 76px 24px;
+  text-align: center;
+}
+
+footer .footer-social h3 {
+  margin: 0 0 24px;
+  color: #fff;
+  font-weight: 300;
+  font-size: 24px;
+}
+
+footer .footer-social ul {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+}
+
+footer .footer-social ul li a {
+  display: inline-flex;
+  width: 24px;
+  height: 24px;
+  transition: opacity 0.2s ease;
+}
+
+footer .footer-social ul li a:hover {
+  opacity: 0.7;
+}
+
+footer .footer-social img {
+  width: 100%;
+  height: 100%;
+
+  /* icons are dark SVGs; render white on the teal band */
+  filter: brightness(0) invert(1);
+}
+
+/* --- program link columns --- */
+footer .footer-links {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 24px;
+}
+
+footer .footer-links ul {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+
+footer .footer-links ul li ul {
+  display: block;
+  gap: 0;
+}
+
+footer .footer-links ul > li > p {
+  margin: 0 0 12px;
+  color: rgb(116 116 116);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+footer .footer-links ul li ul li {
+  padding: 6px 0;
+}
+
+footer .footer-links ul li ul li a {
+  font-size: 16px;
+  color: #000;
+}
+
+footer .footer-links ul li ul li a:hover {
+  color: var(--brand-accent);
+  text-decoration: underline;
+}
+
+/* --- legal / copyright bar --- */
+footer .footer-legal {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  border-top: 1px solid rgb(0 0 0 / 10%);
+}
+
+footer .footer-legal ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-bottom: 16px;
+}
+
+footer .footer-legal ul li {
+  position: relative;
+  padding-right: 16px;
+}
+
+footer .footer-legal ul li:not(:last-child)::after {
+  content: '\22C5';
+  position: absolute;
+  right: 0;
+  color: rgb(0 0 0 / 40%);
+}
+
+footer .footer-legal ul li a {
+  font-size: 14px;
+  font-weight: 600;
+  color: #000;
+}
+
+footer .footer-legal ul li a:hover {
+  color: var(--brand-accent);
+  text-decoration: underline;
+}
+
+footer .footer-legal > p {
+  font-size: 16px;
+  color: #000;
+}
+
+/* --- desktop: 3-column program links --- */
 @media (width >= 900px) {
-  footer .footer > div {
-    padding: 40px 32px 24px;
+  footer .footer-links > .default-content-wrapper > ul {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px;
   }
 }

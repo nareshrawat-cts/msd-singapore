@@ -1,0 +1,10 @@
+{
+  "type": "doc",
+  "sites": {
+    "msd-singapore": {
+      "previewOrg": "nareshrawat-cts",
+      "previewSite": "msd-singapore",
+      "libraryUrl": "https://main--sta-boilerplate--aemdemos.aem.page/tools/sidekick/library.json"
+    }
+  }
+}

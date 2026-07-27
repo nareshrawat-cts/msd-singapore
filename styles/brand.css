@@ -1,0 +1,41 @@
+/* MSD brand font (Invention). Variable font served from the MSD theme. */
+@font-face {
+  font-family: Invention;
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  src:
+    local("Invention"),
+    url("https://www.msd-singapore.com/wp-content/themes/cex-wpvip-mhh-mhh2-mcc-theme/fonts/InventionVF_W_Wght.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: Invention;
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+  src:
+    local("Invention Italic"),
+    url("https://www.msd-singapore.com/wp-content/themes/cex-wpvip-mhh-mhh2-mcc-theme/fonts/InventionVF_Italics_W_Wght.woff2") format("woff2");
+}
+
+:root {
+  --heading-font-family: "Invention", "Helvetica Neue", helvetica, arial, sans-serif;
+  --body-font-family: "Invention", "Helvetica Neue", helvetica, arial, sans-serif;
+  --background-color: #fff;
+  --text-color: #000;
+  --link-color: #00857c;
+  --link-hover-color: #00655e;
+  --brand-accent: #00857c;
+  --brand-accent-dark: #00655e;
+  --section-light: #f2f2f2;
+  --section-dark: #2d2d2d;
+  --section-padding: 40px;
+  --nav-height: 72px;
+  --heading-size-xxl: 52px;
+  --heading-size-xl: 46px;
+  --heading-size-l: 30px;
+  --heading-size-m: 22px;
+  --heading-size-s: 18px;
+  --heading-size-xs: 16px;
+}

@@ -1,0 +1,146 @@
+/* Block: hero-career -- featured career banner with full-width background image + overlaid content card */
+
+/* full-bleed: remove section width constraints */
+.hero-career-container .hero-career-wrapper {
+  max-width: unset;
+  padding: 0;
+}
+
+.hero-career {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Row 1: background image */
+.hero-career > div:first-child {
+  margin: 0;
+}
+
+.hero-career > div:first-child picture {
+  display: block;
+}
+
+.hero-career > div:first-child img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 280px;
+  object-fit: cover;
+}
+
+/* Row 2: content card overlay */
+.hero-career > div:last-child {
+  margin: 0;
+}
+
+.hero-career > div:last-child > div {
+  box-sizing: border-box;
+  background-color: #fff;
+  color: var(--text-color);
+  padding: 32px 24px;
+}
+
+/* Card typography */
+.hero-career h3 {
+  margin: 0;
+  font-family: var(--heading-font-family);
+  font-weight: 300;
+  font-size: var(--heading-font-size-l);
+  line-height: 1.25;
+  color: var(--text-color);
+}
+
+.hero-career p {
+  margin: 12px 0 0;
+  font-size: var(--body-font-size-s);
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--text-color);
+}
+
+/* CTA button -- source: teal bg, white text, radius 1px, padding 16px 24px, weight 700 */
+.hero-career p:last-child {
+  margin-top: 24px;
+}
+
+.hero-career a:any-link {
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 16px 24px;
+  border: 0;
+  border-radius: 1px;
+  background-color: var(--brand-accent);
+  color: #fff;
+  font-size: var(--body-font-size-s);
+  font-weight: 700;
+  line-height: 1.25;
+  text-decoration: none;
+}
+
+.hero-career a:hover,
+.hero-career a:focus-visible {
+  background-color: var(--brand-accent-dark);
+  color: #fff;
+  text-decoration: none;
+}
+
+/* no-image fallback */
+.hero-career.no-image > div:last-child > div {
+  color: var(--text-color);
+}
+
+@media (width >= 900px) {
+  .hero-career {
+    min-height: 725px;
+  }
+
+  /* image fills the banner photo area as a background layer -- source photo ~725px tall */
+  .hero-career > div:first-child {
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: 0;
+    height: 725px;
+  }
+
+  .hero-career > div:first-child > div,
+  .hero-career > div:first-child picture {
+    height: 100%;
+    width: 100%;
+  }
+
+  /* content row establishes the overlay context */
+  /* stylelint-disable-next-line no-descending-specificity */
+  .hero-career > div:last-child {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    min-height: 725px;
+    padding-bottom: 0;
+  }
+
+  /* the white card overlays the bottom of the image, offset to overhang below the photo */
+  .hero-career > div:last-child > div {
+    width: 852px;
+    max-width: calc(100% - 48px);
+    padding: 64px 96px;
+    margin-bottom: -139px;
+  }
+
+  .hero-career h3 {
+    font-size: 30px;
+    line-height: 40px;
+  }
+
+  .hero-career p {
+    font-size: 16px;
+    line-height: 28px;
+  }
+}
+
+@media (width >= 1200px) {
+  .hero-career > div:last-child > div {
+    padding: 64px 144px;
+  }
+}

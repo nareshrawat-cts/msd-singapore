@@ -1,0 +1,224 @@
+/* Block: carousel-story -- homepage hero story carousel (MSD Singapore) */
+
+.carousel-story .carousel-story-slides-container {
+  position: relative;
+}
+
+.carousel-story .carousel-story-slides,
+.carousel-story .carousel-story-slide-indicators {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.carousel-story .carousel-story-slides {
+  display: flex;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  overflow: scroll clip;
+}
+
+.carousel-story .carousel-story-slides::-webkit-scrollbar {
+  display: none;
+}
+
+/* --- Slide layout: image + content, stacked on mobile --- */
+.carousel-story .carousel-story-slide {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  position: relative;
+  width: 100%;
+}
+
+.carousel-story .carousel-story-slide-image {
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel-story .carousel-story-slide-image picture {
+  display: block;
+}
+
+.carousel-story .carousel-story-slide-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* --- Content panel --- */
+.carousel-story .carousel-story-slide-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 32px 16px;
+}
+
+.carousel-story .carousel-story-category {
+  margin: 0 0 12px;
+  color: var(--brand-accent);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.carousel-story .carousel-story-headline {
+  margin: 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-weight: 300;
+  font-size: 26px;
+  line-height: 34px;
+  letter-spacing: normal;
+}
+
+.carousel-story .carousel-story-cta {
+  margin: 24px 0 0;
+}
+
+/* Re-assert the primary button styling inside the block: the global EDS
+   reset (main a.button:any-link) flattens all buttons to plain links, so we
+   restore the teal CTA that the source design uses. */
+.carousel-story .carousel-story-cta a.button:any-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--brand-accent);
+  border-radius: 1px;
+  padding: 16px 24px;
+  background-color: var(--brand-accent);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.carousel-story .carousel-story-cta a.button:any-link:hover,
+.carousel-story .carousel-story-cta a.button:any-link:focus-visible {
+  border-color: var(--brand-accent-dark);
+  background-color: var(--brand-accent-dark);
+  color: #fff;
+  text-decoration: none;
+}
+
+/* --- Slide indicators (dots) --- */
+.carousel-story .carousel-story-slide-indicators {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 12px;
+  padding: 16px 12px;
+  line-height: 0;
+}
+
+.carousel-story .carousel-story-slide-indicator button {
+  width: 40px;
+  height: 4px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: #dadada;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.carousel-story .carousel-story-slide-indicator button:disabled,
+.carousel-story .carousel-story-slide-indicator button:hover,
+.carousel-story .carousel-story-slide-indicator button:focus-visible {
+  background-color: var(--brand-accent);
+}
+
+/* --- Prev / next navigation --- */
+.carousel-story .carousel-story-navigation-buttons {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.carousel-story .carousel-story-navigation-buttons button {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background-color: rgb(255 255 255 / 80%);
+  box-shadow: 0 1px 4px rgb(0 0 0 / 20%);
+  transition: background-color 0.2s;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.carousel-story .carousel-story-navigation-buttons button:hover,
+.carousel-story .carousel-story-navigation-buttons button:focus-visible {
+  background-color: #fff;
+}
+
+.carousel-story .carousel-story-navigation-buttons button::after {
+  display: block;
+  content: '';
+  border: 2px solid var(--brand-accent);
+  border-bottom: 0;
+  border-left: 0;
+  height: 10px;
+  width: 10px;
+  position: absolute;
+  top: 50%;
+  left: calc(50% + 2px);
+  transform: translate(-50%, -50%) rotate(-135deg);
+}
+
+.carousel-story .carousel-story-navigation-buttons button.slide-next::after {
+  transform: translate(-50%, -50%) rotate(45deg);
+  left: calc(50% - 2px);
+}
+
+/* --- Desktop: side-by-side image + content --- */
+@media (width >= 900px) {
+  .carousel-story .carousel-story-slide {
+    flex-direction: row;
+    align-items: stretch;
+    min-height: min(55vw, 760px);
+  }
+
+  .carousel-story .carousel-story-slide-image {
+    flex: 0 0 40%;
+    max-width: 40%;
+  }
+
+  .carousel-story .carousel-story-slide-content {
+    flex: 1 1 60%;
+    justify-content: center;
+    padding: 64px 16px 64px 144px;
+  }
+
+  .carousel-story .carousel-story-category {
+    margin: 0 0 24px;
+  }
+
+  .carousel-story .carousel-story-headline {
+    max-width: 720px;
+    font-size: 30px;
+    line-height: 38px;
+  }
+
+  .carousel-story .carousel-story-navigation-buttons {
+    left: 24px;
+    right: 24px;
+  }
+}

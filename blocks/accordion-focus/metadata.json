@@ -1,0 +1,39 @@
+{
+  "variantName": "accordion-focus",
+  "baseBlock": "accordion",
+  "version": "1.0.0",
+  "created": "2026-07-27T08:16:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.msd-singapore.com/",
+    "originPage": "MSD Singapore homepage",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "focus-areas",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "title | (image + heading + paragraph + CTA)",
+    "buttonCount": 1,
+    "imageCount": 1,
+    "itemCount": 5
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "expandable focus-area / topic lists",
+      "FAQ-style expand/collapse sections",
+      "categorized content with rich expanded panels"
+    ],
+    "notSuitableFor": [
+      "always-visible side-by-side content (use columns)",
+      "rotating slides (use carousel)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-07-27T08:16:00.000Z"
+  }
+}
