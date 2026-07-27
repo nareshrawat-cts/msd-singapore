@@ -90,16 +90,17 @@
 }
 
 @media (width >= 900px) {
+  /* source full-bleed banner is ~864px tall at 1440px */
   .hero-career {
-    min-height: 725px;
+    min-height: 864px;
   }
 
-  /* image fills the banner photo area as a background layer -- source photo ~725px tall */
+  /* image fills the banner photo area as a background layer -- source photo ~864px tall */
   .hero-career > div:first-child {
     position: absolute;
     inset: 0 0 auto;
     z-index: 0;
-    height: 725px;
+    height: 864px;
   }
 
   .hero-career > div:first-child > div,
@@ -116,16 +117,17 @@
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    min-height: 725px;
+    min-height: 864px;
     padding-bottom: 0;
   }
 
-  /* the white card overlays the bottom of the image, offset to overhang below the photo */
+  /* the white card sits INSIDE the image near the bottom (source: card bottom
+     ~139px above the image bottom, so ~139px of photo shows below the card). */
   .hero-career > div:last-child > div {
     width: 852px;
     max-width: calc(100% - 48px);
     padding: 64px 96px;
-    margin-bottom: -139px;
+    margin-bottom: 139px;
   }
 
   .hero-career h3 {
