@@ -1,3 +1,18 @@
+const AUTO_ADVANCE_MS = 6000;
+
+const PAUSE_ICON = `<svg viewBox="0 0 13 16" aria-hidden="true" focusable="false">
+  <rect width="3" height="16"></rect>
+  <rect x="10" width="3" height="16"></rect>
+</svg>`;
+
+const PLAY_ICON = `<svg viewBox="0 0 13 16" aria-hidden="true" focusable="false">
+  <path d="M0 0 L13 8 L0 16 Z"></path>
+</svg>`;
+
+function prefersReducedMotion() {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
 function updateActiveSlide(slide) {
   const block = slide.closest('.carousel-story');
   const slideIndex = parseInt(slide.dataset.slideIndex, 10);
@@ -15,15 +30,6 @@ function updateActiveSlide(slide) {
       }
     });
   });
-
-  const indicators = block.querySelectorAll('.carousel-story-slide-indicator');
-  indicators.forEach((indicator, idx) => {
-    if (idx !== slideIndex) {
-      indicator.querySelector('button').removeAttribute('disabled');
-    } else {
-      indicator.querySelector('button').setAttribute('disabled', 'true');
-    }
-  });
 }
 
 export function showSlide(block, slideIndex = 0) {
@@ -40,24 +46,154 @@ export function showSlide(block, slideIndex = 0) {
   });
 }
 
-function bindEvents(block) {
-  const slideIndicators = block.querySelector('.carousel-story-slide-indicators');
-  if (!slideIndicators) return;
+/**
+ * Wires up auto-rotation with a pause/play toggle and an animated progress bar.
+ * The progress fill is driven by requestAnimationFrame so it grows smoothly
+ * across the slide duration, then advances to the next slide and resets. The
+ * toggle button pauses/resumes the timer and freezes/unfreezes the fill.
+ * @param {Element} block the carousel block
+ */
+function setupAutoRotation(block) {
+  const slides = block.querySelectorAll('.carousel-story-slide');
+  if (slides.length < 2) return;
 
-  slideIndicators.querySelectorAll('button').forEach((button) => {
-    button.addEventListener('click', (e) => {
-      const slideIndicator = e.currentTarget.parentElement;
-      showSlide(block, parseInt(slideIndicator.dataset.targetSlide, 10));
+  const reducedMotion = prefersReducedMotion();
+  const state = {
+    playing: !reducedMotion,
+    rafId: null,
+    startTime: 0,
+    elapsed: 0,
+    index: 0,
+  };
+
+  const activeFill = () => {
+    const active = slides[state.index];
+    return active ? active.querySelector('.carousel-story-progress-fill') : null;
+  };
+
+  const activeToggle = () => {
+    const active = slides[state.index];
+    return active ? active.querySelector('.carousel-story-toggle') : null;
+  };
+
+  const setFillWidth = (pct) => {
+    const fill = activeFill();
+    if (fill) fill.style.width = `${Math.min(100, Math.max(0, pct))}%`;
+  };
+
+  const stopRaf = () => {
+    if (state.rafId) {
+      cancelAnimationFrame(state.rafId);
+      state.rafId = null;
+    }
+  };
+
+  const advance = () => {
+    setFillWidth(0);
+    state.elapsed = 0;
+    state.startTime = 0;
+    const next = (state.index + 1) % slides.length;
+    state.index = next;
+    showSlide(block, next);
+  };
+
+  const tick = (now) => {
+    if (!state.playing) return;
+    if (!state.startTime) state.startTime = now;
+    const total = state.elapsed + (now - state.startTime);
+    if (total >= AUTO_ADVANCE_MS) {
+      // advance first so the fill lookup targets the newly-active slide's bar
+      advance();
+    } else {
+      setFillWidth((total / AUTO_ADVANCE_MS) * 100);
+    }
+    state.rafId = requestAnimationFrame(tick);
+  };
+
+  const play = () => {
+    if (state.playing && state.rafId) return;
+    state.playing = true;
+    state.startTime = 0;
+    stopRaf();
+    state.rafId = requestAnimationFrame(tick);
+    const toggle = activeToggle();
+    if (toggle) {
+      toggle.innerHTML = PAUSE_ICON;
+      toggle.setAttribute('aria-label', 'Pause');
+      toggle.dataset.state = 'playing';
+    }
+  };
+
+  const pause = () => {
+    state.playing = false;
+    stopRaf();
+    // freeze accumulated time so resume continues from here
+    const fill = activeFill();
+    if (fill) {
+      const pct = parseFloat(fill.style.width) || 0;
+      state.elapsed = (pct / 100) * AUTO_ADVANCE_MS;
+    }
+    const toggle = activeToggle();
+    if (toggle) {
+      toggle.innerHTML = PLAY_ICON;
+      toggle.setAttribute('aria-label', 'Play');
+      toggle.dataset.state = 'paused';
+    }
+  };
+
+  const resetTimer = () => {
+    state.elapsed = 0;
+    state.startTime = 0;
+    setFillWidth(0);
+    if (state.playing) {
+      stopRaf();
+      state.rafId = requestAnimationFrame(tick);
+    }
+  };
+
+  // wire the toggle button on every slide (only the active one is visible)
+  block.querySelectorAll('.carousel-story-toggle').forEach((toggle) => {
+    toggle.addEventListener('click', () => {
+      if (state.playing) {
+        pause();
+      } else {
+        play();
+      }
     });
   });
 
-  block.querySelector('.slide-prev').addEventListener('click', () => {
-    showSlide(block, parseInt(block.dataset.activeSlide, 10) - 1);
-  });
-  block.querySelector('.slide-next').addEventListener('click', () => {
-    showSlide(block, parseInt(block.dataset.activeSlide, 10) + 1);
+  // manual navigation via the "Next story:" titles resets the timer/bar
+  block.addEventListener('carousel-story:navigate', (e) => {
+    if (e.detail && typeof e.detail.index === 'number') {
+      // clear the fill on the slide we're leaving before switching target
+      setFillWidth(0);
+      state.index = e.detail.index;
+    }
+    resetTimer();
   });
 
+  // sync each slide's toggle icon to the current state as it becomes active
+  const syncToggles = () => {
+    block.querySelectorAll('.carousel-story-toggle').forEach((toggle) => {
+      if (state.playing) {
+        toggle.innerHTML = PAUSE_ICON;
+        toggle.setAttribute('aria-label', 'Pause');
+        toggle.dataset.state = 'playing';
+      } else {
+        toggle.innerHTML = PLAY_ICON;
+        toggle.setAttribute('aria-label', 'Play');
+        toggle.dataset.state = 'paused';
+      }
+    });
+  };
+  syncToggles();
+
+  if (state.playing) {
+    play();
+  }
+}
+
+function bindEvents(block) {
   const slideObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) updateActiveSlide(entry.target);
@@ -92,12 +228,43 @@ function splitCategoryHeadline(raw) {
   return { category: '', headline: text };
 }
 
+/**
+ * Builds the pause/play toggle + progress bar control row. Placed at the top
+ * of the content column, above the eyebrow.
+ * @returns {Element} the control row element
+ */
+function createControl() {
+  const control = document.createElement('div');
+  control.classList.add('carousel-story-control');
+
+  const toggle = document.createElement('button');
+  toggle.type = 'button';
+  toggle.classList.add('carousel-story-toggle');
+  toggle.setAttribute('aria-label', 'Pause');
+  toggle.dataset.state = 'playing';
+  toggle.innerHTML = PAUSE_ICON;
+
+  const track = document.createElement('div');
+  track.classList.add('carousel-story-progress');
+  track.setAttribute('role', 'progressbar');
+  track.setAttribute('aria-hidden', 'true');
+
+  const fill = document.createElement('div');
+  fill.classList.add('carousel-story-progress-fill');
+  track.append(fill);
+
+  control.append(toggle, track);
+  return control;
+}
+
 function decorateSlideContent(content, slideIndex, carouselId) {
   const paragraphs = content.querySelectorAll(':scope > p');
   const [textPara, ...rest] = paragraphs;
   if (textPara) {
     const { category, headline } = splitCategoryHeadline(textPara.textContent);
     const frag = document.createDocumentFragment();
+    // control row (pause/play + progress) sits above the eyebrow
+    frag.append(createControl());
     if (category) {
       const eyebrow = document.createElement('p');
       eyebrow.classList.add('carousel-story-category');
@@ -149,7 +316,8 @@ function createSlide(row, slideIndex, carouselId) {
  * Each slide gets a panel listing the OTHER slides' headlines as clickable
  * buttons. Because only the active slide's content is visible, this naturally
  * keeps the currently-active story excluded from its own preview list.
- * Clicking a preview title navigates the carousel to that slide via showSlide.
+ * Clicking a preview title navigates the carousel to that slide via showSlide
+ * and dispatches a navigate event so the auto-rotation timer resets.
  * @param {Element} block the carousel block
  * @param {Object} placeholders localized label strings
  */
@@ -188,7 +356,10 @@ function buildNextStoryPreviews(block, placeholders = {}) {
       btn.classList.add('carousel-story-next-link');
       btn.textContent = titles[targetIndex];
       btn.setAttribute('aria-label', `${placeholders.goToStory || 'Go to story'}: ${titles[targetIndex]}`);
-      btn.addEventListener('click', () => showSlide(block, targetIndex));
+      btn.addEventListener('click', () => {
+        showSlide(block, targetIndex);
+        block.dispatchEvent(new CustomEvent('carousel-story:navigate', { detail: { index: targetIndex } }));
+      });
 
       item.append(btn);
       list.append(item);
@@ -218,36 +389,9 @@ export default async function decorate(block) {
   slidesWrapper.classList.add('carousel-story-slides');
   block.prepend(slidesWrapper);
 
-  let slideIndicators;
-  if (!isSingleSlide) {
-    const slideIndicatorsNav = document.createElement('nav');
-    slideIndicatorsNav.setAttribute('aria-label', placeholders.carouselSlideControls || 'Carousel Slide Controls');
-    slideIndicators = document.createElement('ol');
-    slideIndicators.classList.add('carousel-story-slide-indicators');
-    slideIndicatorsNav.append(slideIndicators);
-    block.append(slideIndicatorsNav);
-
-    const slideNavButtons = document.createElement('div');
-    slideNavButtons.classList.add('carousel-story-navigation-buttons');
-    slideNavButtons.innerHTML = `
-      <button type="button" class= "slide-prev" aria-label="${placeholders.previousSlide || 'Previous Slide'}"></button>
-      <button type="button" class="slide-next" aria-label="${placeholders.nextSlide || 'Next Slide'}"></button>
-    `;
-
-    container.append(slideNavButtons);
-  }
-
   rows.forEach((row, idx) => {
     const slide = createSlide(row, idx, carouselId);
     slidesWrapper.append(slide);
-
-    if (slideIndicators) {
-      const indicator = document.createElement('li');
-      indicator.classList.add('carousel-story-slide-indicator');
-      indicator.dataset.targetSlide = idx;
-      indicator.innerHTML = `<button type="button" aria-label="${placeholders.showSlide || 'Show Slide'} ${idx + 1} ${placeholders.of || 'of'} ${rows.length}"></button>`;
-      slideIndicators.append(indicator);
-    }
     row.remove();
   });
 
@@ -257,5 +401,6 @@ export default async function decorate(block) {
   if (!isSingleSlide) {
     buildNextStoryPreviews(block, placeholders);
     bindEvents(block);
+    setupAutoRotation(block);
   }
 }
