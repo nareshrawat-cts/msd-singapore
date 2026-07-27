@@ -103,6 +103,30 @@
           "defaultContent": []
         }
       ]
+    },
+    {
+      "name": "content-page",
+      "urls": [
+        "https://www.msd-singapore.com/our-operation/our-operation/"
+      ],
+      "representativeUrl": "https://www.msd-singapore.com/our-operation/our-operation/",
+      "coverageGaps": [],
+      "description": "Simple content page: heading, image, and body paragraphs (all default content, no blocks)",
+      "blocks": [],
+      "sections": [
+        {
+          "id": "section-1",
+          "name": "Operation Overview Content",
+          "selector": ".entry-content",
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            ".entry-content h3",
+            ".entry-content figure img",
+            ".entry-content p"
+          ]
+        }
+      ]
     }
   ]
 }

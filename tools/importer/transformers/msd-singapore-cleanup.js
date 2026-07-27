@@ -30,6 +30,17 @@ export default function transform(hookName, element, payload) {
       // class so real block content is preserved.
       '.mco-b5-content-block-modal',
     ]);
+
+    // Decorative empty title blocks: some pages (e.g. Operation Overview) use an
+    // .mco-title-block purely as a full-width background-image banner with no
+    // authorable text. transformBackgroundImages would otherwise convert that
+    // CSS background into a stray <img>. Remove only title blocks that have no
+    // meaningful text so real intro title blocks (with headings/copy) survive.
+    element.querySelectorAll('.mco-title-block').forEach((tb) => {
+      if (!tb.textContent || tb.textContent.trim().length === 0) {
+        tb.remove();
+      }
+    });
   }
 
   if (hookName === TransformHook.afterTransform) {
