@@ -48,21 +48,25 @@ header nav .nav-brand img {
   display: block;
 }
 
-/* header actions: Search + Menu */
+/* header actions: teal bar with white Search + Menu buttons (matches source) */
 header nav .nav-actions {
   display: flex;
-  align-items: center;
-  gap: 32px;
+  align-items: stretch;
+  align-self: stretch;
+  background: var(--brand-accent);
 }
 
 header nav .nav-search-toggle,
 header nav .nav-menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
   margin: 0;
   border: 0;
   border-radius: 0;
-  padding: 0;
+  padding: 0 24px;
   background: none;
-  color: #000;
+  color: #fff;
   font-family: var(--body-font-family);
   font-size: 20px;
   font-weight: 700;
@@ -72,13 +76,19 @@ header nav .nav-menu-toggle {
 
 header nav .nav-search-toggle:hover,
 header nav .nav-menu-toggle:hover {
-  color: var(--brand-accent);
+  color: #fff;
+  opacity: 0.85;
 }
 
-/* the Menu button gets a leading bar/indicator to echo the source separator */
+header nav .nav-action-icon {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+/* the Menu button gets a leading divider to echo the source separator */
 header nav .nav-menu-toggle {
   position: relative;
-  padding-left: 32px;
 }
 
 header nav .nav-menu-toggle::before {
@@ -88,8 +98,8 @@ header nav .nav-menu-toggle::before {
   top: 50%;
   transform: translateY(-50%);
   width: 1px;
-  height: 20px;
-  background: rgb(0 0 0 / 20%);
+  height: 24px;
+  background: rgb(255 255 255 / 30%);
 }
 
 /* navigation overlay (revealed on Menu click) */
@@ -222,35 +232,21 @@ header nav .nav-promo a:hover {
   background: var(--brand-accent-dark);
 }
 
-/* mobile: search toggle collapses to an icon, logo shrinks */
+/* mobile: search toggle collapses to icon-only, logo shrinks */
 @media (width < 900px) {
   header nav .nav-brand img {
     width: 120px;
   }
 
-  header nav .nav-actions {
-    gap: 20px;
-  }
-
-  header nav .nav-search-toggle {
-    font-size: 0;
-    width: 24px;
-    height: 24px;
-    position: relative;
-  }
-
-  header nav .nav-search-toggle::after {
-    content: '\1F50D';
-    font-size: 18px;
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
+  header nav .nav-search-toggle,
   header nav .nav-menu-toggle {
+    padding: 0 16px;
     font-size: 18px;
+  }
+
+  /* search shows icon only on mobile */
+  header nav .nav-search-toggle span {
+    display: none;
   }
 
   header nav .nav-sections > ul > li > p {

@@ -96,18 +96,20 @@ export default async function decorate(block) {
   searchBtn.type = 'button';
   searchBtn.className = 'nav-search-toggle';
   searchBtn.setAttribute('aria-label', 'Search everything');
-  searchBtn.textContent = 'Search everything';
+  searchBtn.innerHTML = '<img class="nav-action-icon" src="/content/images/search-white.svg" alt=""><span>Search everything</span>';
 
   const menuBtn = document.createElement('button');
   menuBtn.type = 'button';
   menuBtn.className = 'nav-menu-toggle';
   menuBtn.setAttribute('aria-controls', 'nav');
   menuBtn.setAttribute('aria-label', 'Menu');
-  menuBtn.textContent = 'Menu';
+  menuBtn.innerHTML = '<img class="nav-action-icon" src="/content/images/burger-white.svg" alt=""><span>Menu</span>';
+  const menuLabel = menuBtn.querySelector('span');
   menuBtn.addEventListener('click', () => {
     toggleMenu(nav);
-    menuBtn.textContent = nav.getAttribute('aria-expanded') === 'true' ? 'Close' : 'Menu';
-    menuBtn.setAttribute('aria-label', nav.getAttribute('aria-expanded') === 'true' ? 'Close' : 'Menu');
+    const open = nav.getAttribute('aria-expanded') === 'true';
+    menuLabel.textContent = open ? 'Close' : 'Menu';
+    menuBtn.setAttribute('aria-label', open ? 'Close' : 'Menu');
   });
 
   actions.append(searchBtn, menuBtn);
