@@ -118,6 +118,57 @@ main > .section > .carousel-story-wrapper {
   text-decoration: none;
 }
 
+/* --- "Next story:" preview panel --- */
+.carousel-story .carousel-story-next {
+  width: 100%;
+  margin: 32px 0 0;
+}
+
+.carousel-story .carousel-story-next-heading {
+  margin: 0 0 12px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 28px;
+}
+
+.carousel-story .carousel-story-next-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.carousel-story .carousel-story-next-item {
+  margin: 0;
+}
+
+.carousel-story .carousel-story-next-link {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text-color);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.carousel-story .carousel-story-next-link:hover,
+.carousel-story .carousel-story-next-link:focus-visible {
+  color: var(--brand-accent);
+  text-decoration: underline;
+}
+
 /* --- Slide indicators (dots) --- */
 .carousel-story .carousel-story-slide-indicators {
   display: flex;
@@ -229,7 +280,25 @@ main > .section > .carousel-story-wrapper {
   .carousel-story .carousel-story-slide-content {
     flex: 1 1 60%;
     justify-content: center;
-    padding: 64px 16px 64px 144px;
+    padding: 64px 64px 64px 144px;
+  }
+
+  /* push the preview panel into the lower portion of the content column,
+     below the vertically-centered category/headline/CTA group */
+  .carousel-story .carousel-story-next {
+    margin-top: auto;
+    padding-top: 48px;
+  }
+
+  /* three story titles laid out side by side (source: 3 x ~188px columns) */
+  .carousel-story .carousel-story-next-list {
+    flex-direction: row;
+    gap: 32px;
+  }
+
+  .carousel-story .carousel-story-next-item {
+    flex: 1 1 0;
+    min-width: 0;
   }
 
   .carousel-story .carousel-story-category {

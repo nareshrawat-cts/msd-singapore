@@ -144,6 +144,61 @@ function createSlide(row, slideIndex, carouselId) {
   return slide;
 }
 
+/**
+ * Builds the "Next story:" preview panel inside each slide's content column.
+ * Each slide gets a panel listing the OTHER slides' headlines as clickable
+ * buttons. Because only the active slide's content is visible, this naturally
+ * keeps the currently-active story excluded from its own preview list.
+ * Clicking a preview title navigates the carousel to that slide via showSlide.
+ * @param {Element} block the carousel block
+ * @param {Object} placeholders localized label strings
+ */
+function buildNextStoryPreviews(block, placeholders = {}) {
+  const slides = [...block.querySelectorAll('.carousel-story-slide')];
+  if (slides.length < 2) return;
+
+  // collect the headline text for every slide up front (data-driven)
+  const titles = slides.map((slide) => {
+    const headline = slide.querySelector('.carousel-story-headline');
+    return headline ? headline.textContent.trim() : '';
+  });
+
+  slides.forEach((slide, slideIndex) => {
+    const content = slide.querySelector('.carousel-story-slide-content');
+    if (!content) return;
+
+    const preview = document.createElement('div');
+    preview.classList.add('carousel-story-next');
+
+    const heading = document.createElement('p');
+    heading.classList.add('carousel-story-next-heading');
+    heading.textContent = placeholders.nextStory || 'Next story:';
+    preview.append(heading);
+
+    const list = document.createElement('ul');
+    list.classList.add('carousel-story-next-list');
+
+    slides.forEach((_, targetIndex) => {
+      if (targetIndex === slideIndex) return;
+      const item = document.createElement('li');
+      item.classList.add('carousel-story-next-item');
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.classList.add('carousel-story-next-link');
+      btn.textContent = titles[targetIndex];
+      btn.setAttribute('aria-label', `${placeholders.goToStory || 'Go to story'}: ${titles[targetIndex]}`);
+      btn.addEventListener('click', () => showSlide(block, targetIndex));
+
+      item.append(btn);
+      list.append(item);
+    });
+
+    preview.append(list);
+    content.append(preview);
+  });
+}
+
 let carouselId = 0;
 export default async function decorate(block) {
   carouselId += 1;
@@ -200,6 +255,7 @@ export default async function decorate(block) {
   block.prepend(container);
 
   if (!isSingleSlide) {
+    buildNextStoryPreviews(block, placeholders);
     bindEvents(block);
   }
 }
