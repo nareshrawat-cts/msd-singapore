@@ -56,5 +56,42 @@ export default function parse(element, { document }) {
   }
 
   const block = WebImporter.Blocks.createBlock(document, { name: 'accordion-focus', cells });
-  element.replaceWith(block);
+
+  // Preserve the section intro (heading + description + "View all focus areas"
+  // CTA) as default content ABOVE the accordion. The source wraps it in
+  // .coporateberg-related-link-header-container; without this the imported page
+  // drops the "Our areas of focus" heading/intro entirely.
+  const headerContainer = element.querySelector('.coporateberg-related-link-header-container, [class*="related-link-header-container"]');
+  const introNodes = [];
+  if (headerContainer) {
+    const heading = headerContainer.querySelector('h1, h2, h3, [class*="header"]');
+    const description = headerContainer.querySelector('p:not(:has(a)), .mccberg-related-link-description, [class*="description"]');
+    const cta = headerContainer.querySelector('a.btn, a[href], p a');
+    if (heading) {
+      const h = document.createElement('h2');
+      h.textContent = heading.textContent.trim();
+      introNodes.push(h);
+    }
+    if (description && description !== heading) {
+      const p = document.createElement('p');
+      p.textContent = description.textContent.trim();
+      introNodes.push(p);
+    }
+    if (cta && cta.getAttribute('href') && cta.getAttribute('href') !== '#') {
+      const p = document.createElement('p');
+      const a = document.createElement('a');
+      a.setAttribute('href', cta.getAttribute('href'));
+      a.textContent = cta.textContent.trim();
+      p.append(a);
+      introNodes.push(p);
+    }
+  }
+
+  if (introNodes.length) {
+    const wrapper = document.createElement('div');
+    wrapper.append(...introNodes, block);
+    element.replaceWith(wrapper);
+  } else {
+    element.replaceWith(block);
+  }
 }
