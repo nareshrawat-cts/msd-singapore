@@ -122,6 +122,24 @@ main .columns-promo-text a:hover {
     width: 50%;
   }
 
+  /* Interlocking composition: the second consecutive promo (image-left
+   * variant) is pulled up so it overlaps the bottom of the first promo,
+   * matching the staggered layout of the source. The wrapper carries the
+   * negative margin so the whole section rises; the block gets a higher
+   * stacking context so its content stays above the block above it. */
+  .columns-promo-wrapper:has(.columns-promo-img-left) {
+    margin-top: -160px;
+  }
+
+  .columns-promo {
+    position: relative;
+    z-index: 1;
+  }
+
+  .columns-promo-img-left {
+    z-index: 2;
+  }
+
   .columns-promo-img img {
     height: 100%;
   }
