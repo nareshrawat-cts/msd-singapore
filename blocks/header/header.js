@@ -33,8 +33,10 @@ function closeOnEscape(e, nav) {
 export default async function decorate(block) {
   // load nav as fragment
   const navMeta = getMetadata('nav');
-  const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/content/nav';
-  const fragment = await loadFragment(navPath);
+  const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
+  // Local dev serves the fragment under /content; production (DA/EDS) serves it at root.
+  let fragment = await loadFragment('/content/nav');
+  if (!fragment) fragment = await loadFragment(navPath);
 
   // decorate nav DOM
   block.textContent = '';
