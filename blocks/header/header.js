@@ -1,6 +1,7 @@
 import { getMetadata } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
 
+// MSD Singapore header: logo + Search/Menu with click-triggered nav overlay.
 // media query match that indicates desktop width
 const isDesktop = window.matchMedia('(min-width: 900px)');
 

@@ -1,6 +1,8 @@
 import { getMetadata } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
 
+// MSD Singapore footer: teal social band, program link columns, legal bar.
+
 /**
  * loads and decorates the footer
  * @param {Element} block The footer block element
