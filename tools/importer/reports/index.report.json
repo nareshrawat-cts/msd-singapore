@@ -1,0 +1,15 @@
+{
+  "status": "success",
+  "url": "https://www.msd-singapore.com/",
+  "path": "index",
+  "timestamp": "2026-07-27T08:31:27.983Z",
+  "title": "MSD Singapore",
+  "template": "homepage",
+  "blocks": [
+    "carousel-story",
+    "columns-promo",
+    "columns-promo",
+    "accordion-focus",
+    "hero-career"
+  ]
+}

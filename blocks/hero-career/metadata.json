@@ -1,0 +1,38 @@
+{
+  "variantName": "hero-career",
+  "baseBlock": "hero",
+  "version": "1.0.0",
+  "created": "2026-07-27T08:16:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.msd-singapore.com/",
+    "originPage": "MSD Singapore homepage",
+    "blockPosition": "bottom"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "spacious",
+    "purpose": "career-banner",
+    "imagePattern": "background"
+  },
+  "contentPattern": {
+    "structure": "background image + heading + paragraph + CTA",
+    "buttonCount": 1,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "full-width career / recruitment banners",
+      "prominent CTA banners with a background photo and overlaid text card",
+      "mid or bottom-of-page callout banners"
+    ],
+    "notSuitableFor": [
+      "multi-slide rotating content (use carousel)",
+      "plain centered intro text with no background image (use default content)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-07-27T08:16:00.000Z"
+  }
+}

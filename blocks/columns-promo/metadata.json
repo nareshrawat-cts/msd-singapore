@@ -1,0 +1,39 @@
+{
+  "variantName": "columns-promo",
+  "baseBlock": "columns",
+  "version": "1.0.0",
+  "created": "2026-07-27T08:16:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.msd-singapore.com/",
+    "originPage": "MSD Singapore homepage",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "promo",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "image + (tag) + heading + paragraph + CTA",
+    "buttonCount": 1,
+    "imageCount": 1,
+    "columnCount": 2
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "image + text promo sections",
+      "alternating side-by-side content blocks",
+      "feature highlights with a single CTA"
+    ],
+    "notSuitableFor": [
+      "repeating grids of many items (use cards)",
+      "collapsible content (use accordion)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/index"],
+    "reuseCount": 2,
+    "lastUsed": "2026-07-27T08:16:00.000Z"
+  }
+}

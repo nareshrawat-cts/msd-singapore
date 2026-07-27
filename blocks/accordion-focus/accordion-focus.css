@@ -1,0 +1,157 @@
+/*
+ * Accordion Focus block
+ * "Our areas of focus" expandable list.
+ * Visual design migrated from MSD Singapore (.mccberg-related-link).
+ */
+
+.accordion-focus {
+  max-width: 720px;
+}
+
+/* Accordion item: separated by a thin rule, no box border */
+.accordion-focus .accordion-focus-item {
+  border: 0;
+  border-bottom: 1px solid rgb(117 117 117 / 20%);
+}
+
+.accordion-focus .accordion-focus-item + .accordion-focus-item {
+  margin-top: 0;
+}
+
+/* Title row (summary) */
+.accordion-focus .accordion-focus-item > summary.accordion-focus-item-label {
+  position: relative;
+  display: block;
+  padding: 16px 46px 16px 0;
+  list-style: none;
+  cursor: pointer;
+  background: none;
+  transition: none;
+}
+
+.accordion-focus .accordion-focus-item > summary.accordion-focus-item-label::-webkit-details-marker {
+  display: none;
+}
+
+/* Title text */
+.accordion-focus .accordion-focus-item summary.accordion-focus-item-label h4 {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: normal;
+  color: var(--brand-accent);
+  transition: color 0.2s;
+}
+
+/* Hover / open state deepens the teal title colour */
+.accordion-focus .accordion-focus-item[open] summary.accordion-focus-item-label h4,
+.accordion-focus .accordion-focus-item > summary.accordion-focus-item-label:hover h4 {
+  color: var(--brand-accent-dark);
+}
+
+/* Open item gets a teal bottom accent under the title row */
+.accordion-focus .accordion-focus-item[open] {
+  border-bottom-color: var(--brand-accent);
+  border-bottom-width: 2px;
+}
+
+/* Chevron indicator */
+.accordion-focus .accordion-focus-item summary.accordion-focus-item-label::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  width: 8px;
+  height: 8px;
+  border: solid var(--text-color);
+  border-width: 2px 2px 0 0;
+  transform: translateY(-50%) rotate(45deg);
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.accordion-focus .accordion-focus-item[open] summary.accordion-focus-item-label::after,
+.accordion-focus .accordion-focus-item > summary.accordion-focus-item-label:hover::after {
+  border-color: var(--brand-accent);
+}
+
+.accordion-focus .accordion-focus-item[open] summary.accordion-focus-item-label::after {
+  transform: translateY(-50%) rotate(135deg);
+}
+
+/* Expanded body */
+.accordion-focus .accordion-focus-item .accordion-focus-item-body {
+  padding: 24px 0 32px;
+  background: none;
+  border-top: 0;
+}
+
+/* Body image */
+.accordion-focus .accordion-focus-item-body p:has(> picture) {
+  margin: 0 0 24px;
+}
+
+.accordion-focus .accordion-focus-item-body picture {
+  display: block;
+}
+
+.accordion-focus .accordion-focus-item-body img {
+  display: block;
+  width: 100%;
+  max-width: 778px;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Body heading (duplicate title inside body) */
+/* stylelint-disable-next-line no-descending-specificity */
+.accordion-focus .accordion-focus-item-body h4 {
+  margin: 0 0 12px;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 28px;
+  color: var(--text-color);
+}
+
+/* Description paragraph */
+/* stylelint-disable-next-line no-descending-specificity */
+.accordion-focus .accordion-focus-item-body p {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 28px;
+  color: var(--text-color);
+}
+
+/* CTA link: teal, bold, underlined text link (not a button) */
+.accordion-focus .accordion-focus-item-body p:last-child {
+  margin-top: 24px;
+}
+
+.accordion-focus .accordion-focus-item-body a:any-link {
+  display: inline-block;
+  padding: 8px 0;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--brand-accent);
+  text-decoration: none;
+  border-bottom: 2px solid var(--brand-accent);
+}
+
+.accordion-focus .accordion-focus-item-body a:hover {
+  color: var(--brand-accent-dark);
+  border-bottom-color: var(--brand-accent-dark);
+  text-decoration: none;
+}
+
+/* Desktop: constrain the expanded media/text width so it mirrors the
+   source proportions without a fragile two-column grid. */
+@media (width >= 900px) {
+  .accordion-focus .accordion-focus-item-body {
+    max-width: 778px;
+  }
+}

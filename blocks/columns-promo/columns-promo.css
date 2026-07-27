@@ -1,0 +1,159 @@
+/* Block: columns-promo
+ * Two-column promo. Image on one side, teal accent panel with white text
+ * on the other. Values extracted from source .mco-b5-content-block. */
+
+.columns-promo > div {
+  display: flex;
+  flex-direction: column;
+}
+
+/* image column */
+.columns-promo-img {
+  order: 0;
+  line-height: 0;
+}
+
+.columns-promo-img picture,
+.columns-promo-img img {
+  display: block;
+  width: 100%;
+}
+
+.columns-promo-img img {
+  object-fit: cover;
+  aspect-ratio: 642 / 580;
+}
+
+/* text column: teal accent panel with white text */
+.columns-promo-text {
+  order: 1;
+  box-sizing: border-box;
+  background-color: var(--brand-accent);
+  color: #fff;
+  padding: 48px 32px;
+}
+
+.columns-promo-text > * {
+  color: #fff;
+}
+
+.columns-promo-eyebrow {
+  margin: 0 0 8px;
+  font-size: var(--body-font-size-s);
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.columns-promo-text h1,
+.columns-promo-text h2,
+.columns-promo-text h3,
+.columns-promo-text h4,
+.columns-promo-text h5,
+.columns-promo-text h6 {
+  margin: 0 0 16px;
+  color: #fff;
+  font-weight: 300;
+  line-height: 1.33;
+}
+
+.columns-promo-text h3 {
+  font-size: var(--heading-font-size-l);
+}
+
+.columns-promo-text p {
+  margin: 0 0 16px;
+  font-size: var(--body-font-size-s);
+  line-height: 1.75;
+}
+
+.columns-promo-eyebrow + h1,
+.columns-promo-eyebrow + h2,
+.columns-promo-eyebrow + h3,
+.columns-promo-eyebrow + h4 {
+  margin-top: 8px;
+}
+
+/* CTA link: white bold text with 2px white underline bar.
+ * Overrides the global EDS button/link reset. */
+.columns-promo-text .button-container,
+.columns-promo-text p:last-child {
+  margin-bottom: 0;
+}
+
+main .columns-promo-text a:any-link {
+  position: relative;
+  display: inline-block;
+  margin-top: 8px;
+  padding: 0 0 8px;
+  border: none;
+  border-radius: 0;
+  background: none;
+  color: #fff;
+  font-size: var(--body-font-size-s);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+main .columns-promo-text a:any-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #fff;
+}
+
+main .columns-promo-text a:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+@media (width >= 900px) {
+  .columns-promo > div {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .columns-promo-img,
+  .columns-promo-text {
+    order: unset;
+    flex: 0 0 50%;
+    width: 50%;
+  }
+
+  .columns-promo-img img {
+    height: 100%;
+  }
+
+  .columns-promo-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 72px 80px;
+  }
+
+  /* image-right (instance 1): image after text */
+  .columns-promo-img-right .columns-promo-img {
+    order: 2;
+  }
+
+  .columns-promo-img-right .columns-promo-text {
+    order: 1;
+  }
+
+  /* image-left (instance 2): image before text */
+  .columns-promo-img-left .columns-promo-img {
+    order: 1;
+  }
+
+  .columns-promo-img-left .columns-promo-text {
+    order: 2;
+  }
+}
+
+@media (width >= 1200px) {
+  .columns-promo-text {
+    padding: 96px 90px;
+  }
+}
