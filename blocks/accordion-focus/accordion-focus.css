@@ -65,7 +65,7 @@
 }
 
 /* Panel image */
-.accordion-focus .accordion-focus-panel p:has(> picture) {
+.accordion-focus .accordion-focus-panel-media p {
   margin: 0 0 24px;
 }
 
@@ -78,7 +78,7 @@
   width: 100%;
   max-width: 778px;
   height: auto;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 /* Panel heading */
@@ -137,9 +137,53 @@
     width: 404px;
   }
 
+  /* Right column reserves the source panel height (~591px) so the taller,
+     overlapping image + card composition has room. */
   .accordion-focus .accordion-focus-panels {
-    flex: 0 0 672px;
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 591px;
+  }
+
+  .accordion-focus .accordion-focus-panel:not([hidden]) {
+    position: relative;
+    height: 591px;
+  }
+
+  /* Large image, top-right, rises above the card (source: 778×519 flush to
+     the section's right edge). It overflows the 672px right column to the
+     right, so allow the section to clip rather than scroll horizontally. */
+  .accordion-focus .accordion-focus-panel-media {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 778px;
+    max-width: none;
+    line-height: 0;
+  }
+
+  .accordion-focus .accordion-focus-panel-media p {
+    margin: 0;
+  }
+
+  .accordion-focus .accordion-focus-panel-media img {
+    width: 778px;
+    max-width: none;
+    height: 519px;
+  }
+
+  /* White text card overlaps the image's lower-left (source: 672px wide,
+     offset 249px from the top, extended left padding so text clears the
+     image edge; sits in front on a white background). */
+  .accordion-focus .accordion-focus-panel-card {
+    position: absolute;
+    top: 249px;
+    left: 0;
     width: 672px;
-    max-width: 672px;
+    box-sizing: border-box;
+    padding: 40px 64px 40px 156px;
+    background: #fff;
+    z-index: 1;
   }
 }

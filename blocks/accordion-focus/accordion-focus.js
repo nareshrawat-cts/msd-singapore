@@ -46,6 +46,26 @@ export default function decorate(block) {
     panel.id = `${id}-panel`;
     panel.setAttribute('role', 'tabpanel');
     panel.setAttribute('aria-labelledby', `${id}-tab`);
+
+    // Split the panel into an image layer and a text card so the desktop
+    // layout can overlap them (large image top-right, white card over its
+    // lower-left) — matching the source "areas of focus" composition.
+    const media = panel.querySelector('picture, img');
+    const mediaWrap = media ? (media.closest('p') || media) : null;
+    const card = document.createElement('div');
+    card.className = 'accordion-focus-panel-card';
+    [...panel.children].forEach((child) => {
+      if (child !== mediaWrap) card.append(child);
+    });
+    if (mediaWrap) {
+      const mediaHolder = document.createElement('div');
+      mediaHolder.className = 'accordion-focus-panel-media';
+      mediaHolder.append(mediaWrap);
+      panel.append(mediaHolder, card);
+    } else {
+      panel.append(card);
+    }
+
     panels.append(panel);
     panelEls.push(panel);
   });
